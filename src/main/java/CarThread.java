@@ -1,11 +1,15 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarThread extends Thread {
-    public static int randNum() {
-        return (int)(Math.random() * 100) % 10;
-    }
-    public void run(Car[] car) {
-        for (int i = 0; i < car.length; i++) {
-            car[i].printCar();
-            car[i].stopAndGo(randNum());
+    List<Car> cars = new ArrayList<>();
+
+
+    public void setCars(List<Car> cars) { this.cars = cars; }
+    public void run() {
+        for (int i = 0; i < cars.size(); i++) {
+            cars.get(i).stopAndGo((int)(Math.random() * 10));
+            cars.get(i).printCar();
         }
         System.out.println();
         try {

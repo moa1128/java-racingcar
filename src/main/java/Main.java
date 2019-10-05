@@ -1,4 +1,5 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -12,29 +13,25 @@ public class Main {
             if(names[i].length() <= 5 && names[i].length() > 0)
                 return false;
         }
+        System.out.println("이름은 5자리 이하로 입력하세요");
         return true;
     }
-    public static int maxPositionIndex(Car[] cars) {
-        int maxIndex = cars[0].getPosition();
-        for(int i = 0; i < cars.length; i++) {
-            if(maxIndex <= cars[i].getPosition())
+    public static int maxPositionIndex(List<Car> cars) {
+        int maxIndex = 0;
+        for(int i = 0; i < cars.size(); i++) {
+            if(cars.get(maxIndex).getPosition() <= cars.get(i).getPosition())
                 maxIndex = i;
         }
         return maxIndex;
     }
-
-    public static String winner(Car[] cars, int max) {
+    public static String winner(List<Car> cars, int max) {
         String winCar = "";
-        if(max == 0) {
-            winCar = cars[max].getName() + "가 최종 우승했습니다";
-            return winCar;
-        }
         for(int i = 0; i < max; i++) {
-            if(cars[max].getPosition() == cars[i].getPosition()) {
-                winCar += cars[i].getName() + ", ";
+            if(cars.get(max).getPosition() == cars.get(i).getPosition()) {
+                winCar += cars.get(i).getName() + ", ";
             }
         }
-        winCar += cars[max].getName() + "가 최종 우승했습니다";
+        winCar += cars.get(max).getName() + "가 최종 우승했습니다";
         return winCar;
     }
 
@@ -47,9 +44,9 @@ public class Main {
             name = nameSplit(names);
         } while(nameCheck(name));
 
-        Car[] cars = new Car[name.length];
+        List<Car> cars = new ArrayList<>();
         for(int i = 0; i < name.length; i++) {
-            cars[i] = new Car(name[i]);
+            cars.add(new Car(name[i]));
         }
 
         System.out.println("시도할 회수는 몇회인가요?");
@@ -57,9 +54,11 @@ public class Main {
 
         System.out.println("실행 결과");
         CarThread carThread = new CarThread();
+        carThread.setCars(cars);
         for(int i = 0; i < count; i++) {
-            carThread.run(cars);
+            carThread.run();
         }
+
         int max = maxPositionIndex(cars);
         System.out.println(winner(cars, max));
     }
