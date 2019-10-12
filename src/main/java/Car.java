@@ -12,7 +12,6 @@ public class Car {
     public int getPosition() {
         return position;
     }
-    //전진하거나 멈추는 메소드, 처음은 무조건 한 칸(-) 가야한다고 생각했어요
     public void stopAndGo(int num) {
         if(num >= MIN_GO_NUM || position == START_POINT)  position++;
     }
